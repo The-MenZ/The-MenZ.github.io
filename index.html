@@ -1,1 +1,54 @@
-Now under construction
+<html lang="ja">
+<head>
+  <title>The-MenZ | Github Pages</title>
+  <style type="text/css">
+    header {
+      height: 55px;
+      border-bottom: gray solid 2px;
+      display: table;
+      width: 100%;
+    }
+
+    header div {
+      height: 50px;
+    }
+
+    .header_title {
+      margin-right: auto;
+      width: 200px;
+    }
+
+    .header_slogan {
+      width: 220px;
+      margin-left: auto;
+      vertical-align: bottom;
+      display: table-cell;
+      text-align: right;
+      padding-bottom: 10px;
+    }
+
+    .header_title h1,
+    .header_slogan p {
+      margin: 0;
+    }
+
+    .header_slogan p {
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header_title">
+      <h1>The-MenZ</h1>
+    </div>
+    <div class="header_slogan">
+      <p>ビールで作るグルーブです</p>
+    </div>
+  </header>
+
+  {% for repository in site.github.public_repositories %}
+    * [{{ repository.name }}]({{ repository.html_url }})
+  {% endfor %}
+</body>
+</html>
