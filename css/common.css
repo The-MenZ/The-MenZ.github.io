@@ -109,6 +109,30 @@ header div {
   height: 200px;
 }
 
+.project_image2 {
+  min-width: 700px;
+  height: 200px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.project_image2 img{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /*-webkit-transform: translate3d(-50%, -50%, 0);*/
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.project_image2 video{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /*-webkit-transform: translate3d(-50%, -50%, 0);*/
+  transform: translate3d(-50%, -50%, 0);
+}
+
 .projects {
   margin: 0;
   padding: 0;
