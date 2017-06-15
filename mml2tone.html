@@ -1,0 +1,194 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MML 2 TONE</title>
+  </head>
+
+  <body>
+  <center>
+  <h1>MML 2 TONE</h1>
+  <!-- <script type="text/javascript" src="JSMML.js"></script> -->
+  <script type="text/javascript" language="javascript">
+    function getDuration(number1, number2) {
+      if(isFinite(number1)){
+        if(isFinite(number2)){
+          return number1 + number2;
+        } else {
+          return number1;
+        }
+      } else {
+        return 0;
+      }
+    }
+
+    function onButtonClick() {
+
+      // テキスト出力先と紐付け
+      target = document.getElementById("output");
+
+      var toneSongs = "";
+      var note = "1";
+      var noteAdd = 0;
+
+      var toneDurations = "";
+      var duration = "4";
+      var durationBuf = "4";
+      var defaultDuration = "";
+
+      var octave = "4";
+      var baseOctave = "4";
+
+      var mmlArray = document.forms.id_mml2toneForm1.id_mmlTextBox1.value.split("");
+
+      //［オクターブ_~］［音符cdefgabr］［音階-+］［音の長さ1〜64］
+      for(var i=0; i<mmlArray.length; i++){
+
+        switch(mmlArray[i]){
+          case "c":
+            note = "NOTE_C";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+          case "d":
+            note = "NOTE_D";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+          case "e":
+            note = "NOTE_E";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+          case "f":
+            note = "NOTE_F";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+          case "g":
+            note = "NOTE_G";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+          case "a":
+            note = "NOTE_A";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+          case "b":
+            note = "NOTE_B";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+
+          // 休符
+          case "r":
+            note = "REST";
+            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
+            if(durationBuf != 0){
+              duration = durationBuf;
+            } else {
+              duration = defaultDuration;
+            }
+            noteAdd = 1;
+            break;
+
+          // スペースは何もしない
+          case " ":
+            break;
+
+          // Default note length
+          case "l":
+            defaultDuration = getDuration(mmlArray[i+1], mmlArray[i+2]);
+            break;
+ 
+          // Octave
+          case "o":
+            baseOctave = getDuration(mmlArray[i+1], mmlArray[i+2])
+            octave = baseOctave;
+            break;
+ 
+          // baseOctave up
+          case ">":
+            baseOctave++;
+            break;
+ 
+          // baseOctave down
+          case "<":
+            baseOctave--;
+            break;
+ 
+          // Relative octave up
+          case "~":
+            octave++;
+            break;
+ 
+          // Relative octave down
+          case "_":
+            octave--;
+            break;
+ 
+        }
+ 
+        if(noteAdd == 1){
+          if(note != "REST"){
+            toneSongs += note + octave + ", ";
+          } else {
+            toneSongs += note + ", ";
+          }
+          toneDurations += duration + ", ";
+          octave = baseOctave;
+          noteAdd = 0;
+        }
+ 
+      }
+      // テキストボックスの値をテキスト出力先に代入
+  //    target.innerText = document.forms.id_mml2toneForm1.id_mmlTextBox1.value;
+      target.innerText = toneSongs + "\n" + toneDurations;
+    }
+  </script>
+ 
+  <form name="mml2toneForm1" id="id_mml2toneForm1" action="">
+    <input name="mmlTextBox1" id="id_mmlTextBox1" type="text" size="80" value="l4 cdefgab c6c6c32 o5 r c8defgab r c>d>efga<b r o4 _c_def~g~ab" /><br>
+    <input type="button" value="conversion!" onclick="onButtonClick();" />
+  </form>
+ 
+  <hr/>
+  </center>
+  <div id="output"></div>
+  </body>
+</html>
