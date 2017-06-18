@@ -9,15 +9,47 @@
   <h1>MML 2 TONE</h1>
   <!-- <script type="text/javascript" src="JSMML.js"></script> -->
   <script type="text/javascript" language="javascript">
-    function getDuration(number1, number2) {
-      if(isFinite(number1)){
-        if(isFinite(number2)){
-          return number1 + number2;
-        } else {
+    function getDuration(number1, number2, dot = "", defaultDuration = 0) {
+      if(number1 != " " && isFinite(number1)){
+        if(number2 != " " && isFinite(number2)){
+          // if (dot == ".")
+          //   return (number1 + number2) * 0.5;
+          // else
+            return number1 + number2;
+        }
+        //   else if(number2 == "."){
+        //   return number1 * 0.5;
+        // }
+        else {
           return number1;
         }
-      } else {
-        return 0;
+      }
+      // else if (number1 == ".") {
+      //   return defaultDuration * 0.5;
+      // }
+      else {
+        return defaultDuration;
+      }
+    }
+
+    // 半音の取得
+    // Note:音楽的にはEの半音上げとかはないが、MMLは全音上げとして認識するのでFになる
+    // 同じく、Bの半音上げCの半音下げはオクターブが変わって全音上げ下げになる
+    function getSemitone(note, up_or_down = "") {
+      var notes = ["C","CS","D","DS","E","F","FS","G","GS","A","AS","B"];
+      array_index = notes.indexOf(note.toUpperCase());
+      if (up_or_down == "+") {
+        // オクターブ上がるやつ
+        if (array_index == 11) {
+          return [notes[0], "+"];
+        }
+        return [notes[array_index + 1], 0];
+      } else if (up_or_down == "-") {
+        // オクターブ下がるやつ
+        if (array_index == 0) {
+          return [notes[11], "-"];
+        }
+        return [notes[array_index - 1], 0];
       }
     }
 
@@ -33,97 +65,68 @@
       var toneDurations = "";
       var duration = "4";
       var durationBuf = "4";
-      var defaultDuration = "";
+      var defaultDuration = "4";
 
       var octave = "4";
       var baseOctave = "4";
 
+      var tempo = "";
+
       var mmlArray = document.forms.id_mml2toneForm1.id_mmlTextBox1.value.split("");
 
-      //［オクターブ_~］［音符cdefgabr］［音階-+］［音の長さ1〜64］
+      //［テンポt］［オクターブ_~］［音階cdefgabr］［半音-+］［音の長さ1〜64］
       for(var i=0; i<mmlArray.length; i++){
 
         switch(mmlArray[i]){
+          // テンポ
+          case "t":
+            if (tempo == "") {
+              // 数字の間は読み込む
+              for (var tmp_cursol = 1;
+                    isFinite(mmlArray[i + tmp_cursol]) && mmlArray[i+tmp_cursol] != " ";
+                    tmp_cursol++) {
+                  tempo += mmlArray[i + tmp_cursol];
+              }
+            }
+            break;
+
+          // 音階
           case "c":
-            note = "NOTE_C";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
-            } else {
-              duration = defaultDuration;
-            }
-            noteAdd = 1;
-            break;
           case "d":
-            note = "NOTE_D";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
-            } else {
-              duration = defaultDuration;
-            }
-            noteAdd = 1;
-            break;
           case "e":
-            note = "NOTE_E";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
-            } else {
-              duration = defaultDuration;
-            }
-            noteAdd = 1;
-            break;
           case "f":
-            note = "NOTE_F";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
-            } else {
-              duration = defaultDuration;
-            }
-            noteAdd = 1;
-            break;
           case "g":
-            note = "NOTE_G";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
-            } else {
-              duration = defaultDuration;
-            }
-            noteAdd = 1;
-            break;
           case "a":
-            note = "NOTE_A";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
-            } else {
-              duration = defaultDuration;
-            }
-            noteAdd = 1;
-            break;
           case "b":
-            note = "NOTE_B";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
+            var tmp_cursol = 1;
+
+            // 半音の判定
+            if (mmlArray[i+tmp_cursol] == "+" || mmlArray[i+tmp_cursol] == "-") {
+              note_info = getSemitone(mmlArray[i], mmlArray[i+tmp_cursol]);
+              note = "NOTE_" + note_info[0];
+              if (note_info[1] == "+") octave++;
+              else if (note_info[1] == "-") octave--;
+              tmp_cursol++;
             } else {
-              duration = defaultDuration;
+              note = "NOTE_" + mmlArray[i].toUpperCase();
             }
+
+            // TODO:タイと付点音符に対応させたほうがよさそう(スラーはMenZ-TONEの仕様上不要)
+
+            duration = getDuration(mmlArray[i+tmp_cursol],
+                                    mmlArray[i+tmp_cursol+1],
+                                    mmlArray[i+tmp_cursol+2],
+                                    defaultDuration);
             noteAdd = 1;
             break;
 
           // 休符
           case "r":
             note = "REST";
-            durationBuf = getDuration(mmlArray[i+1], mmlArray[i+2])
-            if(durationBuf != 0){
-              duration = durationBuf;
-            } else {
-              duration = defaultDuration;
-            }
+            duration = getDuration(mmlArray[i+tmp_cursol],
+                                    mmlArray[i+tmp_cursol+1],
+                                    mmlArray[i+tmp_cursol+2],
+                                    defaultDuration);
             noteAdd = 1;
             break;
 
@@ -135,35 +138,35 @@
           case "l":
             defaultDuration = getDuration(mmlArray[i+1], mmlArray[i+2]);
             break;
- 
+
           // Octave
           case "o":
             baseOctave = getDuration(mmlArray[i+1], mmlArray[i+2])
             octave = baseOctave;
             break;
- 
+
           // baseOctave up
           case ">":
             baseOctave++;
             break;
- 
+
           // baseOctave down
           case "<":
             baseOctave--;
             break;
- 
+
           // Relative octave up
           case "~":
             octave++;
             break;
- 
+
           // Relative octave down
           case "_":
             octave--;
             break;
- 
+
         }
- 
+
         if(noteAdd == 1){
           if(note != "REST"){
             toneSongs += note + octave + ", ";
@@ -174,19 +177,21 @@
           octave = baseOctave;
           noteAdd = 0;
         }
- 
+
       }
       // テキストボックスの値をテキスト出力先に代入
   //    target.innerText = document.forms.id_mml2toneForm1.id_mmlTextBox1.value;
-      target.innerText = toneSongs + "\n" + toneDurations;
+      target.innerText = "TEMPO:" + tempo + "\n" +
+                          "{ " + toneSongs.substr(0, toneSongs.length - 2) + " }" + "\n" +
+                          "{ " + toneDurations.substr(0, toneDurations.length - 2) + " }";
     }
   </script>
- 
+
   <form name="mml2toneForm1" id="id_mml2toneForm1" action="">
-    <input name="mmlTextBox1" id="id_mmlTextBox1" type="text" size="80" value="l4 cdefgab c6c6c32 o5 r c8defgab r c>d>efga<b r o4 _c_def~g~ab" /><br>
-    <input type="button" value="conversion!" onclick="onButtonClick();" />
+    <input name="mmlTextBox1" id="id_mmlTextBox1" type="text" size="80" value="t90 l4 cdefgab c+c-b-b+ c6c6c32 o5 r c8defgab r c>d>efga<b r o4 _c_def~g~ab" /><br>
+    <input type="button" value="convert!" onclick="onButtonClick();" />
   </form>
- 
+
   <hr/>
   </center>
   <div id="output"></div>
