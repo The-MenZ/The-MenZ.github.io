@@ -112,6 +112,7 @@
             }
 
             // TODO:タイと付点音符に対応させたほうがよさそう(スラーはMenZ-TONEの仕様上不要)
+            // タイの例：c+16.&c+8→&の次もc+か判定する必要がある。結構面倒くさい。
 
             duration = getDuration(mmlArray[i+tmp_cursol],
                                     mmlArray[i+tmp_cursol+1],
