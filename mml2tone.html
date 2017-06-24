@@ -12,24 +12,20 @@
     function getDuration(number1, number2, dot = "", defaultDuration = 0) {
       if(number1 != " " && isFinite(number1)){
         if(number2 != " " && isFinite(number2)){
-          // if (dot == ".")
-          //   return (number1 + number2) * 0.5;
-          // else
+          if (dot == ".")
+            return (1/((1/(number1 + number2)) * 1.5)).toFixed(2);
+          else
             return number1 + number2;
         }
-        //   else if(number2 == "."){
-        //   return number1 * 0.5;
-        // }
-        else {
+        else if(number2 == ".")
+          return (1/((1/number1) * 1.5)).toFixed(2);
+        else
           return number1;
-        }
       }
-      // else if (number1 == ".") {
-      //   return defaultDuration * 0.5;
-      // }
-      else {
+      else if (number1 == ".")
+        return (1/((1/defaultDuration) * 1.5)).toFixed(2);
+      else
         return defaultDuration;
-      }
     }
 
     // 半音の取得
@@ -51,6 +47,18 @@
         }
         return [notes[array_index - 1], 0];
       }
+    }
+
+    // TODO:音階の解析をここで一括でやりたい
+    function analyzeNote(note) {
+      var noteResult = ""
+      var noteArray = note.split("");
+      if (note[1] == "+" || note[1] == "-")
+        noteResult = getSemitone(note[0], note[1]);
+      else
+        noteResult = getSemitone(note[0]);
+      
+      return noteResult;
     }
 
     function onButtonClick() {
@@ -111,13 +119,14 @@
               note = "NOTE_" + mmlArray[i].toUpperCase();
             }
 
-            // TODO:タイと付点音符に対応させたほうがよさそう(スラーはMenZ-TONEの仕様上不要)
+            // TODO:タイに対応させたほうがよさそう(スラーはMenZ-TONEの仕様上不要)
             // タイの例：c+16.&c+8→&の次もc+か判定する必要がある。結構面倒くさい。
 
             duration = getDuration(mmlArray[i+tmp_cursol],
                                     mmlArray[i+tmp_cursol+1],
                                     mmlArray[i+tmp_cursol+2],
                                     defaultDuration);
+
             noteAdd = 1;
             break;
 
