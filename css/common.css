@@ -60,6 +60,7 @@ header div {
   overflow-y: scroll;
   height: 100%;
 }
+
 .sidemenu {
   width: 25%;
   float: left;
@@ -106,27 +107,17 @@ header div {
   position: relative;
 }
 
-.project_image img {
+/* project_imageは標準で高さフィット */
+.project_image img, video {
   height: 200px;
 }
 
-.project_image2 {
-  min-width: 700px;
-  height: 200px;
-  text-align: center;
-  position: relative;
+.image_crop {
   overflow: hidden;
 }
 
-.project_image2 img{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  /*-webkit-transform: translate3d(-50%, -50%, 0);*/
-  transform: translate3d(-50%, -50%, 0);
-}
-
-.project_image2 video{
+.image_crop img, video {
+  height: initial;
   position: absolute;
   left: 50%;
   top: 50%;
