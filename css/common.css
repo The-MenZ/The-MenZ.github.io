@@ -109,7 +109,7 @@ header div {
 
 /* project_imageは標準で高さフィット */
 .project_image img, video {
-  height: 200px;
+  height: inherit;
 }
 
 .image_crop {
