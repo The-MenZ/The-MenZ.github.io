@@ -100,15 +100,15 @@ header div {
   height: 100%;
 }
 
-.project_image {
+.media_link_image {
   min-width: 700px;
   height: 200px;
   text-align: center;
   position: relative;
 }
 
-/* project_imageは標準で高さフィット */
-.project_image img, video {
+/* media_link_imageは標準で高さフィット */
+.media_link_image img, video {
   height: inherit;
 }
 
@@ -125,18 +125,18 @@ header div {
   transform: translate3d(-50%, -50%, 0);
 }
 
-.projects {
+.media_links {
   margin: 0;
   padding: 0;
 }
 
-.projects li {
+.media_links li {
   margin: 0 auto;
   min-width: 700px;
   width: 95%
 }
 
-.project_detail {
+.media_link_detail {
   position: absolute;
   box-sizing: border-box;
   bottom: 0px;
@@ -150,11 +150,12 @@ header div {
   -o-transition: all 0.5s ease;
   transition: all  0.5s ease;
 }
-.project_detail:hover {
+
+.media_link_detail:hover {
   opacity: 1;
 }
 
-.project_title {
+.media_link_title {
   text-align: left;
   position: absolute;
   left: 20px;
@@ -162,6 +163,20 @@ header div {
   font-family: "fatfrank",sans-serif;
   color: white;
   font-size: 50px;
+}
+
+.about_members {
+  width: 50%;
+  float: left;
+}
+
+.member_name {
+  font-size: x-large;
+}
+
+.about_photo {
+  width: 40%;
+  float: right;
 }
 
 a {
