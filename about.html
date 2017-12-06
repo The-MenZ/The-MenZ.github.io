@@ -1,4 +1,4 @@
-<html lang="ja">
+﻿<html lang="ja">
 <head>
   <title>The-MenZ - ABOUT US | Github Pages</title>
   <link rel="stylesheet" type="text/css" href="./css/common.css">
@@ -69,6 +69,34 @@
         <a class="twitter-timeline" data-width="240" data-height="500" data-theme="light" href="https://twitter.com/The_MenZ3?ref_src=twsrc%5Etfw">Tweets by The_MenZ3</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
 
+      <script>
+        window.onload = function() {
+          var amiMess =[
+            "色や形が悪くて弾かれた、パプリカみたいな顔のブス", 
+            "シコる用のちんぽ", 
+            "新春イモしごき祭", 
+            "目が大きくて、髪がピンクで、白痴みたいな女の子！", 
+            "僕の彼女は更年期障害", 
+            "頭部にマン毛移植オジサン", 
+            "日本人彼●女募集中", 
+            "頭にパツキンねーちゃんのマン毛移植オジサンとｻﾏｰﾚｯｽﾝしたいなりぃ", 
+            "童貞12号が性欲を強めながら東に進み、13日にはコミケに上陸", 
+            "顔の長いブス", 
+            "体長20㎝の大名行列", 
+            "流石におしっこは炭酸が入ってないと飲めないですよ", 
+            "両手挙げて！白目剥いて！奇声上げて！オチンポー！", 
+            "絵に描いたオメコが好物", 
+            "ちんぽの先までアンコが入ってる", 
+            "ギーガーリックパンを食べるブス", 
+            "CIAに命を狙われてる系男子です！", 
+            "ガンジスざがんのナマステファック！", 
+            "自宅の洗面台に歯ブラシ、ヒゲ剃り、エネマグラを不自然なく並べる危険な男"
+          ];
+          var amiMessNo = Math.floor(Math.random() * amiMess.length);
+          document.getElementById("ami_mess").textContent = amiMess[amiMessNo];
+        }
+      </script>
+
       <div class="contents">
         <div class="about_members">
           About Us -
@@ -76,7 +104,7 @@
           <p>The-MenZのカッコいい方</p>
 
           <p class="member_name">あみの</p>
-          <p>絵に描いたオメコが好き</p>
+          <p id="ami_mess"></p>
         </div>
         <div class="about_photo">
           <img src="./image/about_us/beer.jpg">
